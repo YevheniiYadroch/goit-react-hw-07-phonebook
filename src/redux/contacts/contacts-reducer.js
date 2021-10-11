@@ -11,19 +11,10 @@ const filterReducer = createReducer('', {
 
 const itemsReducer = createReducer([], {
     [actions.addContact]: (state, { payload }) => {
-            payload.preventDefault();
-            const form = payload.target;
-            if (state.some(item => item.name === payload.target.children.name.value)) {
-                alert(`${payload.target.children.name.value} is already in contacts`);
-                form.reset();
-                return;
-            }
-            const newState = [
-                ...state,
-                { id: uuidv4(), name: payload.target.children.name.value, number: payload.target.children.number.value }
-            ];
-            form.reset();
-            return newState;
+        return [
+            ...state,
+            { id: uuidv4(), name: payload.target.children.name.value, number: payload.target.children.number.value }
+        ];
     },
     [actions.deleteContact]: (state, { payload }) => {
         axios.delete(`http://localhost:3000/contacts/${payload.target.dataset.id}`)

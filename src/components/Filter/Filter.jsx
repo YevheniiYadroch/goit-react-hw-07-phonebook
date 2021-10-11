@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { connect } from 'react-redux';
+import { contactsActions } from '../../redux/contacts';
 import './Filter.css';
 
-class Filter extends Component {
-    render() {
+function Filter ({onSearch}) {
         return (
             <div className="Filter">
                 <h3 className="Filter__title">Find contacts by name</h3>
@@ -12,12 +13,16 @@ class Filter extends Component {
                     pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
                     title="Имя может состоять только из букв, апострофа, тире и пробелов. Например Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan и т. п."
                     required
-                    onChange={this.props.onChange}
+                    onChange={onSearch}
                 />
             </div>
         )
-    }
-    
 }
 
-export default Filter;
+const mapDispatchToProps = dispatch => {
+  return {
+    onSearch: (e) => dispatch(contactsActions.searchContact(e)),
+  }
+}
+
+export default connect(null, mapDispatchToProps)(Filter);

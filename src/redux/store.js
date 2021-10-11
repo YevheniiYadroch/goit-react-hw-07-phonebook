@@ -5,6 +5,12 @@ const store = configureStore({
     reducer: {
         contacts:  contactsReducer,
     },
+    middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActionPaths: ['payload'],
+      },
+    }),
 })
 
 export default store;
