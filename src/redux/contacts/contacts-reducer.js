@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { combineReducers } from "redux";
 import { createReducer } from '@reduxjs/toolkit';
 import * as actions from './contacts-actions';
-import { fetchContacts, pushContacts } from './contacts-operations';
+import { fetchContacts } from './contacts-operations';
 import axios from 'axios';
 
 const filterReducer = createReducer('', {
@@ -11,9 +11,11 @@ const filterReducer = createReducer('', {
 
 const itemsReducer = createReducer([], {
     [actions.addContact]: (state, { payload }) => {
+        const id = uuidv4();
+        axios.post('http://localhost:3000/contacts', {id: id, name: payload.target.children.name.value, number: payload.target.children.number.value});
         return [
             ...state,
-            { id: uuidv4(), name: payload.target.children.name.value, number: payload.target.children.number.value }
+            { id: id, name: payload.target.children.name.value, number: payload.target.children.number.value }
         ];
     },
     [actions.deleteContact]: (state, { payload }) => {
@@ -21,7 +23,6 @@ const itemsReducer = createReducer([], {
         return state.filter(item => item.id !== payload.target.dataset.id);
     },
     [fetchContacts.fulfilled]: (_, action) => action.payload,
-    [pushContacts.fulfilled]: (_, action) => action.payload,
 })
 
 const isLoadingReducer = createReducer(false, {

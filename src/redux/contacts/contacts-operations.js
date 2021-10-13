@@ -9,13 +9,3 @@ export const fetchContacts = createAsyncThunk(
         return data;
     }
 )
-
-export const pushContacts = createAsyncThunk(
-    'contacts/pushContacts',
-    async (contacts) => {
-        const { data } = await axios.get('http://localhost:3000/contacts');
-        if (contacts.length > data.length) {
-            await axios.post('http://localhost:3000/contacts', contacts[contacts.length - 1]);
-        }
-    }
-)

@@ -1,26 +1,17 @@
 import React, { useEffect } from "react";
-import { connect, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { contactsOperations } from './redux/contacts';
-import { getContacts } from "./redux/contacts/contacts-selectors";
 import ContactForm from "./components/ContactForm/ContactForm";
 import Filter from "./components/Filter/Filter";
 import ContactList from "./components/ContactList/ContactList";
 import './App.css';
 
-function App ({contacts}) {
+function App () {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(contactsOperations.fetchContacts())
   }, [dispatch])
-
-  useEffect(() => {
-    if (contacts.length !== 0) {  
-      dispatch(contactsOperations.pushContacts(contacts))
-    }
-  }, [contacts])
-
-
 
     return (
       <div className="App">
@@ -33,10 +24,4 @@ function App ({contacts}) {
     )
 }
 
-const mapStateToProps = state => {
-  return {
-    contacts: getContacts(state),
-  }
-}
-
-export default connect(mapStateToProps, null)(App);
+export default App;
